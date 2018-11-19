@@ -35,7 +35,13 @@ dependencies {
 
     // Due to time constraints I'll now start adding the dependencies directly here.
 
-
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0' because("Syntactical Sugar over Networking Interface")
+    implementation 'com.squareup.retrofit2:retrofit-adapters:2.4.0' because("Adapters needed by retrofit")
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0' because("Gson converter for networking layer")
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0' because("Networking")
+    implementation 'com.google.code.gson:gson:2.8.5' because("Automatic Gson Parsing")
+    implementation 'com.facebook.stetho:stetho:1.5.0' because("Debugging using chrome")
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0' because("Network Debugging using Chrome")
 
 
     testImplementation 'junit:junit:4.12'
