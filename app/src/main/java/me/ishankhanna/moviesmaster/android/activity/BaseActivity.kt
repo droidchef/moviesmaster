@@ -1,4 +1,4 @@
-package me.ishankhanna.moviesmaster.android
+package me.ishankhanna.moviesmaster.android.activity
 
 import android.content.Context
 import android.os.Bundle
