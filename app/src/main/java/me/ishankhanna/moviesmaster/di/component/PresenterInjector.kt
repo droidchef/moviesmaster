@@ -4,12 +4,15 @@ import dagger.BindsInstance
 import dagger.Component
 import me.ishankhanna.moviesmaster.di.module.ContextModule
 import me.ishankhanna.moviesmaster.di.module.NetworkModule
+import me.ishankhanna.moviesmaster.presenter.MoviesListPresenter
 import me.ishankhanna.moviesmaster.view.MvpView
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [(NetworkModule::class), (ContextModule::class)])
+@Component(modules = [ContextModule::class, NetworkModule::class])
 interface PresenterInjector {
+
+    fun inject(moviesListPresenter: MoviesListPresenter)
 
     @Component.Builder
     interface Builder {
