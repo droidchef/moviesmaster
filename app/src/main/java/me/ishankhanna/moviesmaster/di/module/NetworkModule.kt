@@ -26,7 +26,7 @@ object NetworkModule {
     @Provides
     @JvmStatic
     @Reusable
-    internal fun provideSethoInterceptor(): StethoInterceptor {
+    internal fun provideStethoInterceptor(): StethoInterceptor {
         return StethoInterceptor()
     }
 
