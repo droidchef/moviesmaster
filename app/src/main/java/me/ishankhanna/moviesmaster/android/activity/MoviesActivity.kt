@@ -24,7 +24,7 @@ class MoviesActivity : BaseActivity<MoviesListPresenter>(), MoviesListView {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_movies)
 
         binding.adapter = moviesAdapter
-        binding.layoutManager = GridLayoutManager(this, 2)
+        binding.layoutManager = GridLayoutManager(this, 3)
 
         presenter.onViewCreated()
 

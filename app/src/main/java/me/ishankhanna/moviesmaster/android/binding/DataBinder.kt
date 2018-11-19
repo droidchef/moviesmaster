@@ -24,7 +24,7 @@ fun setAdapter(view: RecyclerView, adapter: MoviesAdapter) {
 fun setLayoutManager(view: RecyclerView, layoutManager: RecyclerView.LayoutManager) {
     view.layoutManager = layoutManager
 
-    view.addItemDecoration(GridSpacingItemDecoration(2, dpToPx(4, view.context.resources), false))
+    view.addItemDecoration(GridSpacingItemDecoration(3, dpToPx(4, view.context.resources), false))
 }
 
 private fun dpToPx(dp: Int, resources: Resources): Int {
