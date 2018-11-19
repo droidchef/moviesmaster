@@ -3,10 +3,12 @@ package me.ishankhanna.moviesmaster.android.activity
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
+import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
 import me.ishankhanna.moviesmaster.R
 import me.ishankhanna.moviesmaster.android.adapter.MoviesAdapter
+import me.ishankhanna.moviesmaster.android.divider.GridSpacingItemDecoration
 import me.ishankhanna.moviesmaster.data.model.Movie
 import me.ishankhanna.moviesmaster.databinding.ActivityMoviesBinding
 import me.ishankhanna.moviesmaster.presenter.MoviesListPresenter
@@ -25,7 +27,7 @@ class MoviesActivity : BaseActivity<MoviesListPresenter>(), MoviesListView {
 
         binding.adapter = moviesAdapter
         binding.layoutManager = GridLayoutManager(this, 3)
-
+        binding.dividerItemDecoration = GridSpacingItemDecoration(3, dpToPx(4), false)
         presenter.onViewCreated()
 
     }
@@ -61,5 +63,8 @@ class MoviesActivity : BaseActivity<MoviesListPresenter>(), MoviesListView {
         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
     }
 
+    private fun dpToPx(dp: Int): Int {
+        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), resources.displayMetrics))
+    }
 
 }
