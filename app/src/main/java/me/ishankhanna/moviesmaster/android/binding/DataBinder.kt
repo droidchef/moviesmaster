@@ -4,11 +4,21 @@ import android.databinding.BindingAdapter
 import android.support.v7.widget.RecyclerView
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import me.ishankhanna.moviesmaster.R
 import me.ishankhanna.moviesmaster.android.adapter.MoviesAdapter
 
 @BindingAdapter("imageUrl")
-fun loadImage(view: ImageView, url: String) {
-    Glide.with(view.context).load("https://image.tmdb.org/t/p/w500$url").into(view)
+fun loadImage(view: ImageView, url: String?) {
+    var imageUrl = ""
+    when(view.id) {
+        R.id.ivMovieThumb -> {
+            imageUrl = "https://image.tmdb.org/t/p/w500$url"
+        }
+        R.id.ivMovieBackdrop -> {
+            imageUrl = "https://image.tmdb.org/t/p/w500$url"
+        }
+    }
+    Glide.with(view.context).load(imageUrl).into(view)
 }
 
 @BindingAdapter("adapter")

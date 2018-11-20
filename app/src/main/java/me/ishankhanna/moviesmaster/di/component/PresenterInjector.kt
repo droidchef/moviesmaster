@@ -4,6 +4,7 @@ import dagger.BindsInstance
 import dagger.Component
 import me.ishankhanna.moviesmaster.di.module.ContextModule
 import me.ishankhanna.moviesmaster.di.module.NetworkModule
+import me.ishankhanna.moviesmaster.presenter.MovieDetailPresenter
 import me.ishankhanna.moviesmaster.presenter.MoviesListPresenter
 import me.ishankhanna.moviesmaster.view.MvpView
 import javax.inject.Singleton
@@ -13,6 +14,7 @@ import javax.inject.Singleton
 interface PresenterInjector {
 
     fun inject(moviesListPresenter: MoviesListPresenter)
+    fun inject(movieDetailPresenter: MovieDetailPresenter)
 
     @Component.Builder
     interface Builder {

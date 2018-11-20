@@ -17,4 +17,8 @@ interface MoviesListView : MvpView {
         this.showError(getContext().getString(errorResId))
     }
 
+    fun showMovieDetails()
+
+    fun notifyItemRangeInserted(startPosition: Int, itemCount: Int)
+
 }

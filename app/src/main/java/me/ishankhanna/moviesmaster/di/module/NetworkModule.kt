@@ -9,16 +9,24 @@ import dagger.Provides
 import dagger.Reusable
 import io.reactivex.schedulers.Schedulers
 import me.ishankhanna.moviesmaster.data.remote.service.MoviesService
+import me.ishankhanna.moviesmaster.data.repository.MovieRepository
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 @Module
 object NetworkModule {
 
     @Provides
     @JvmStatic
-    @Reusable
+    internal fun provideMovieRepository() : MovieRepository {
+        return MovieRepository
+    }
+
+    @Provides
+    @JvmStatic
+    @Singleton
     internal fun provideMoviesService(retrofit: Retrofit): MoviesService {
         return retrofit.create(MoviesService::class.java)
     }
@@ -32,35 +40,34 @@ object NetworkModule {
 
     @Provides
     @JvmStatic
-    @Reusable
+    @Singleton
     internal fun provideGson(): Gson {
         return GsonBuilder().create()
     }
 
     @Provides
     @JvmStatic
-    @Reusable
+    @Singleton
     internal fun provideGsonConverterFactory(gson: Gson): GsonConverterFactory {
         return GsonConverterFactory.create(gson)
     }
 
     @Provides
     @JvmStatic
-    @Reusable
     internal fun provideBaseUrl(): String {
         return "https://api.themoviedb.org/3/"
     }
 
     @Provides
     @JvmStatic
-    @Reusable
+    @Singleton
     internal fun provideOkHttpClient(stethoInterceptor: StethoInterceptor): OkHttpClient {
         return OkHttpClient.Builder().addNetworkInterceptor(stethoInterceptor).build()
     }
 
     @Provides
     @JvmStatic
-    @Reusable
+    @Singleton
     internal fun provideRetrofit(baseUrl: String,
                                  okHttpClient: OkHttpClient,
                                  gsonConverterFactory: GsonConverterFactory): Retrofit {
@@ -71,6 +78,5 @@ object NetworkModule {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
             .build()
     }
-
 
 }

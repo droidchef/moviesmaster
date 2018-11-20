@@ -35,6 +35,7 @@ abstract class BasePresenter<out V : MvpView>(protected val view: V) {
     private fun inject() {
         when(this) {
             is MoviesListPresenter -> injector.inject(this)
+            is MovieDetailPresenter -> injector.inject(this)
         }
     }
 }
