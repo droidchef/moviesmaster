@@ -5,9 +5,12 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
 import android.util.TypedValue
+import android.view.Menu
 import android.view.View
 import android.widget.Toast
+import io.reactivex.subjects.PublishSubject
 import me.ishankhanna.moviesmaster.R
 import me.ishankhanna.moviesmaster.android.adapter.MoviesAdapter
 import me.ishankhanna.moviesmaster.android.divider.GridSpacingItemDecoration
@@ -15,7 +18,6 @@ import me.ishankhanna.moviesmaster.data.model.Movie
 import me.ishankhanna.moviesmaster.databinding.ActivityMoviesBinding
 import me.ishankhanna.moviesmaster.presenter.MoviesListPresenter
 import me.ishankhanna.moviesmaster.view.MoviesListView
-
 
 
 class MoviesActivity : BaseActivity<MoviesListPresenter>(), MoviesListView, MoviesAdapter.OnItemClickListener {
@@ -138,5 +140,38 @@ class MoviesActivity : BaseActivity<MoviesListPresenter>(), MoviesListView, Movi
         abstract fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView)
 
     }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.movies_list_menu, menu)
+
+        val searchView = menu.findItem(R.id.search_movies).actionView as SearchView
+
+        val subject = PublishSubject.create<String>()
+
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                if (!p0.isNullOrBlank()) {
+                    subject.onNext(p0!!)
+                }
+                return true
+            }
+
+        })
+
+        presenter.setupAutoCompleteSearch(subject)
+
+        return true
+    }
+
+    override fun showAutoCompleteSuggestions(movies: List<Movie>) {
+        moviesAdapter.clearAllMovies()
+        moviesAdapter.addMovies(movies)
+        moviesAdapter.notifyDataSetChanged()
+    }
+
 
 }

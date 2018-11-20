@@ -4,11 +4,24 @@ import android.databinding.BindingAdapter
 import android.support.v7.widget.RecyclerView
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
 import me.ishankhanna.moviesmaster.R
 import me.ishankhanna.moviesmaster.android.adapter.MoviesAdapter
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
+
+
 
 @BindingAdapter("imageUrl")
 fun loadImage(view: ImageView, url: String?) {
+
+    val options = RequestOptions()
+        .centerCrop()
+        .placeholder(R.drawable.placeholder)
+        .error(R.drawable.error)
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
+        .priority(Priority.HIGH)
+
     var imageUrl = ""
     when(view.id) {
         R.id.ivMovieThumb -> {
@@ -18,7 +31,10 @@ fun loadImage(view: ImageView, url: String?) {
             imageUrl = "https://image.tmdb.org/t/p/w500$url"
         }
     }
-    Glide.with(view.context).load(imageUrl).into(view)
+    Glide.with(view.context)
+        .load(imageUrl)
+        .apply(options)
+        .into(view)
 }
 
 @BindingAdapter("adapter")

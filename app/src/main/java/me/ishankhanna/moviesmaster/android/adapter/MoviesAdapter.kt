@@ -36,6 +36,10 @@ class MoviesAdapter(private val context: Context, private val onItemClickListene
         this.movies.addAll(movies)
     }
 
+    fun clearAllMovies() {
+        this.movies.clear()
+    }
+
     class MovieViewHolder(private val binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(movie: Movie, onItemClickListener: OnItemClickListener) {

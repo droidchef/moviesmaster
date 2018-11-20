@@ -21,4 +21,6 @@ interface MoviesListView : MvpView {
 
     fun notifyItemRangeInserted(startPosition: Int, itemCount: Int)
 
+    fun showAutoCompleteSuggestions(movies: List<Movie>)
+
 }

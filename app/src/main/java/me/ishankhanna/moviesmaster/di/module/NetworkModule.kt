@@ -9,6 +9,7 @@ import dagger.Provides
 import dagger.Reusable
 import io.reactivex.schedulers.Schedulers
 import me.ishankhanna.moviesmaster.data.remote.service.MoviesService
+import me.ishankhanna.moviesmaster.data.remote.service.SearchService
 import me.ishankhanna.moviesmaster.data.repository.MovieRepository
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -18,10 +19,19 @@ import javax.inject.Singleton
 @Module
 object NetworkModule {
 
+
     @Provides
     @JvmStatic
+    @Singleton
     internal fun provideMovieRepository() : MovieRepository {
         return MovieRepository
+    }
+
+    @Provides
+    @JvmStatic
+    @Singleton
+    internal fun provideSearchService(retrofit: Retrofit): SearchService {
+        return retrofit.create(SearchService::class.java)
     }
 
     @Provides
