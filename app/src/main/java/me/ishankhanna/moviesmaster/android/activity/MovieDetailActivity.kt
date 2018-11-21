@@ -26,10 +26,16 @@ class MovieDetailActivity : BaseActivity<MovieDetailPresenter>(), MovieDetailVie
 
     }
 
+    /**
+     * This method is used to initialize the presenter that controls this activity a.k.a view
+     */
     override fun instantiatePresenter(): MovieDetailPresenter {
         return MovieDetailPresenter(this)
     }
 
+    /**
+     * This method is used to bind the movie object to the view.
+     */
     override fun showMovieDetails(movie: Movie) {
         binding.movie = movie
     }

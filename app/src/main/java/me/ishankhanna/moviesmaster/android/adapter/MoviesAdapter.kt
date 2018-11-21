@@ -12,8 +12,15 @@ import me.ishankhanna.moviesmaster.databinding.ItemMovieBinding
 class MoviesAdapter(private val context: Context, private val onItemClickListener: MoviesAdapter.OnItemClickListener) :
     RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
 
+    /**
+     * This is the instance of the movies list that is used to display movie objects in the recycler view.
+     */
     private var movies: ArrayList<Movie> = arrayListOf()
 
+    /**
+     * A simple item click listener interface that must be implemented by the Activity/Fragment where the recycler view
+     * that is associated with this adapter has been created. It provides callbacks for item clicks of the recycler.
+     */
     interface OnItemClickListener {
         fun onItemClicked(movie: Movie)
     }
@@ -24,6 +31,9 @@ class MoviesAdapter(private val context: Context, private val onItemClickListene
         return MovieViewHolder(dataBinding)
     }
 
+    /**
+     * This method is used to return the size of our list.
+     */
     override fun getItemCount(): Int {
         return movies.size
     }
@@ -32,10 +42,16 @@ class MoviesAdapter(private val context: Context, private val onItemClickListene
         holder.bind(movies[position], onItemClickListener)
     }
 
+    /**
+     * This method <b>appends</b> movies to the list that is the backing data structure of our adapter.
+     */
     fun addMovies(movies: List<Movie>) {
         this.movies.addAll(movies)
     }
 
+    /**
+     * This method is used to clear the movie list that backs this adapter.
+     */
     fun clearAllMovies() {
         this.movies.clear()
     }

@@ -23,4 +23,6 @@ interface MoviesListView : MvpView {
 
     fun showAutoCompleteSuggestions(movies: List<Movie>)
 
+    fun pruneAutoCompleteSuggestions()
+
 }

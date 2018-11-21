@@ -10,7 +10,7 @@ import dagger.Reusable
 import io.reactivex.schedulers.Schedulers
 import me.ishankhanna.moviesmaster.data.remote.service.MoviesService
 import me.ishankhanna.moviesmaster.data.remote.service.SearchService
-import me.ishankhanna.moviesmaster.data.repository.MovieRepository
+import me.ishankhanna.moviesmaster.data.local.MovieCache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -23,8 +23,8 @@ object NetworkModule {
     @Provides
     @JvmStatic
     @Singleton
-    internal fun provideMovieRepository(): MovieRepository {
-        return MovieRepository
+    internal fun provideMovieCache(): MovieCache {
+        return MovieCache
     }
 
     @Provides

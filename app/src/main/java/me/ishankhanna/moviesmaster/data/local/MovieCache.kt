@@ -1,10 +1,8 @@
-package me.ishankhanna.moviesmaster.data.repository
+package me.ishankhanna.moviesmaster.data.local
 
 import me.ishankhanna.moviesmaster.data.model.Movie
-import javax.inject.Singleton
 
-@Singleton
-object MovieRepository : Repository<Movie> {
+object MovieCache {
 
     /**
      * Ideally this should be moved to a Local Cache and the repository should use concatenated observables from the
@@ -16,16 +14,8 @@ object MovieRepository : Repository<Movie> {
 
     var selectedMovie: Movie? = null
 
-    override fun getAll(): Collection<Movie> {
-        return movies
-    }
-
-    override fun addAll(items: Collection<Movie>) {
+    fun addAll(items: Collection<Movie>) {
         movies.addAll(items)
-    }
-
-    override fun clear() {
-        movies.clear()
     }
 
     fun hasCachedResults(): Boolean = movies.isNotEmpty()
