@@ -6,6 +6,7 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import me.ishankhanna.moviesmaster.R
 import me.ishankhanna.moviesmaster.android.adapter.MoviesAdapter
@@ -30,9 +31,11 @@ fun loadImage(view: ImageView, url: String?) {
             imageUrl = "https://image.tmdb.org/t/p/w500$url"
         }
     }
+
     Glide.with(view.context)
         .load(imageUrl)
         .apply(options)
+        .transition(DrawableTransitionOptions.withCrossFade())
         .into(view)
 }
 
