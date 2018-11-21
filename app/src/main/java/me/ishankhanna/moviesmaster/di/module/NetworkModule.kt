@@ -23,7 +23,7 @@ object NetworkModule {
     @Provides
     @JvmStatic
     @Singleton
-    internal fun provideMovieRepository() : MovieRepository {
+    internal fun provideMovieRepository(): MovieRepository {
         return MovieRepository
     }
 
@@ -78,9 +78,11 @@ object NetworkModule {
     @Provides
     @JvmStatic
     @Singleton
-    internal fun provideRetrofit(baseUrl: String,
-                                 okHttpClient: OkHttpClient,
-                                 gsonConverterFactory: GsonConverterFactory): Retrofit {
+    internal fun provideRetrofit(
+        baseUrl: String,
+        okHttpClient: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory
+    ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(okHttpClient)

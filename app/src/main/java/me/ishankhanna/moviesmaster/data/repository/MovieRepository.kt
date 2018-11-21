@@ -6,9 +6,13 @@ import javax.inject.Singleton
 @Singleton
 object MovieRepository : Repository<Movie> {
 
+    /**
+     * Ideally this should be moved to a Local Cache and the repository should use concatenated observables from the
+     * cache, database and network to get the latest data quickly as possible.
+     */
     val movies: ArrayList<Movie> = arrayListOf()
 
-    var totalPages : Int = 0
+    var totalPages: Int = 0
 
     var selectedMovie: Movie? = null
 
@@ -24,9 +28,5 @@ object MovieRepository : Repository<Movie> {
         movies.clear()
     }
 
-    fun hasSelection(): Boolean {
-        return selectedMovie != null
-    }
-
-    fun hasCachedResults() : Boolean = movies.isNotEmpty()
+    fun hasCachedResults(): Boolean = movies.isNotEmpty()
 }

@@ -2,4 +2,5 @@
     <string name="app_name">MoviesMaster</string>
     <string name="title_activity_movie_detail">MovieDetailActivity</string>
     <string name="search_title">Search For Movies</string>
+    <string name="error_message_no_internet">Please check your internet connection!</string>
 </resources>

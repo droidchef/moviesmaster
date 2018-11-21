@@ -5,11 +5,10 @@ import android.support.v7.widget.RecyclerView
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
-import me.ishankhanna.moviesmaster.R
-import me.ishankhanna.moviesmaster.android.adapter.MoviesAdapter
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-
+import me.ishankhanna.moviesmaster.R
+import me.ishankhanna.moviesmaster.android.adapter.MoviesAdapter
 
 
 @BindingAdapter("imageUrl")
@@ -23,7 +22,7 @@ fun loadImage(view: ImageView, url: String?) {
         .priority(Priority.HIGH)
 
     var imageUrl = ""
-    when(view.id) {
+    when (view.id) {
         R.id.ivMovieThumb -> {
             imageUrl = "https://image.tmdb.org/t/p/w500$url"
         }

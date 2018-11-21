@@ -32,17 +32,18 @@ class MoviesActivity : BaseActivity<MoviesListPresenter>(), MoviesListView, Movi
         binding = DataBindingUtil.setContentView(this, R.layout.activity_movies)
 
         binding.adapter = moviesAdapter
-        val gridLayoutManager = GridLayoutManager(this, 3)
-        binding.layoutManager = gridLayoutManager
-        binding.dividerItemDecoration = GridSpacingItemDecoration(3, dpToPx(4), false)
-        binding.rvMovies.addOnScrollListener(object: InfiniteScrollListener(gridLayoutManager) {
 
+        val gridLayoutManager = GridLayoutManager(this, 3)
+
+        binding.layoutManager = gridLayoutManager
+
+        binding.dividerItemDecoration = GridSpacingItemDecoration(3, dpToPx(4), false)
+
+        binding.rvMovies.addOnScrollListener(object : InfiniteScrollListener(gridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 presenter.requestNextPage(page)
             }
-
         })
-
         presenter.onViewCreated()
 
     }
@@ -70,13 +71,11 @@ class MoviesActivity : BaseActivity<MoviesListPresenter>(), MoviesListView, Movi
     }
 
     override fun showError(errorMessage: String) {
-        println(errorMessage)
         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
     }
 
     override fun notifyItemRangeInserted(startPosition: Int, itemCount: Int) {
         moviesAdapter.notifyItemRangeInserted(startPosition, itemCount)
-
     }
 
     override fun onItemClicked(movie: Movie) {
@@ -85,14 +84,21 @@ class MoviesActivity : BaseActivity<MoviesListPresenter>(), MoviesListView, Movi
     }
 
     private fun dpToPx(dp: Int): Int {
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), resources.displayMetrics))
+        return Math.round(
+            TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp.toFloat(),
+                resources.displayMetrics
+            )
+        )
     }
 
     override fun showMovieDetails() {
         startActivity(Intent(this, MovieDetailActivity::class.java))
     }
 
-    abstract class InfiniteScrollListener(private val layoutManager: GridLayoutManager) : RecyclerView.OnScrollListener() {
+    abstract class InfiniteScrollListener(private val layoutManager: GridLayoutManager) :
+        RecyclerView.OnScrollListener() {
 
         private var visibleThreshold = 5
 
@@ -148,7 +154,7 @@ class MoviesActivity : BaseActivity<MoviesListPresenter>(), MoviesListView, Movi
 
         val subject = PublishSubject.create<String>()
 
-        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 return true
             }

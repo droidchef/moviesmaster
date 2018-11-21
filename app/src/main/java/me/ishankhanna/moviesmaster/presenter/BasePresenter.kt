@@ -22,18 +22,18 @@ abstract class BasePresenter<out V : MvpView>(protected val view: V) {
     /**
      * This method may be called when the presenter view is created
      */
-    open fun onViewCreated(){}
+    open fun onViewCreated() {}
 
     /**
      * This method may be called when the presenter view is destroyed
      */
-    open fun onViewDestroyed(){}
+    open fun onViewDestroyed() {}
 
     /**
      * Injects the required dependencies
      */
     private fun inject() {
-        when(this) {
+        when (this) {
             is MoviesListPresenter -> injector.inject(this)
             is MovieDetailPresenter -> injector.inject(this)
         }

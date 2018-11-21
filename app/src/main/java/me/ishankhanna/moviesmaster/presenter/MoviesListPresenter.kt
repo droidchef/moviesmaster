@@ -1,19 +1,21 @@
 package me.ishankhanna.moviesmaster.presenter
 
 import io.reactivex.ObservableSource
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
+import me.ishankhanna.moviesmaster.R
 import me.ishankhanna.moviesmaster.data.model.Movie
 import me.ishankhanna.moviesmaster.data.remote.response.ListMoviesResponse
 import me.ishankhanna.moviesmaster.data.remote.service.MoviesService
 import me.ishankhanna.moviesmaster.data.remote.service.SearchService
 import me.ishankhanna.moviesmaster.data.repository.MovieRepository
 import me.ishankhanna.moviesmaster.view.MoviesListView
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -35,11 +37,8 @@ class MoviesListPresenter(moviesListView: MoviesListView) : BasePresenter<Movies
     var query: String? = null
 
     override fun onViewCreated() {
-
         compositeDisposable = CompositeDisposable()
-
         loadMovies()
-
     }
 
     private fun loadMovies() {
@@ -61,12 +60,7 @@ class MoviesListPresenter(moviesListView: MoviesListView) : BasePresenter<Movies
             .getMoviesPlayingNow(pageIndex)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .doOnError { it ->
-                it.printStackTrace()
-                view.hideLoading()
-                view.showError("Unknown Error")
-            }
-            .subscribe { moviesListResponse ->
+            .subscribe({ moviesListResponse ->
                 view.hideLoading()
                 movieRepository.addAll(moviesListResponse.movies)
                 view.showMovies(moviesListResponse.movies)
@@ -77,7 +71,13 @@ class MoviesListPresenter(moviesListView: MoviesListView) : BasePresenter<Movies
                     view.notifyItemRangeInserted(moviesCount, moviesListResponse.movies.size)
                 }
                 moviesCount += moviesListResponse.movies.size
-            }
+            }, { throwable ->
+                view.hideLoading()
+                when (throwable) {
+                    is UnknownHostException -> view.showError(R.string.error_message_no_internet)
+                    is SocketTimeoutException -> view.showError(R.string.error_message_no_internet)
+                }
+            })
     }
 
     fun requestNextPage(page: Int) {
@@ -87,7 +87,6 @@ class MoviesListPresenter(moviesListView: MoviesListView) : BasePresenter<Movies
     }
 
     fun onMovieSelected(movie: Movie?) {
-        println(movie)
         movieRepository.selectedMovie = movie
         view.showMovieDetails()
     }
@@ -97,18 +96,24 @@ class MoviesListPresenter(moviesListView: MoviesListView) : BasePresenter<Movies
         compositeDisposable.add(
             subject.debounce(300, TimeUnit.MILLISECONDS)
                 .distinctUntilChanged()
-                .switchMap(Function<String, ObservableSource<ListMoviesResponse>> {query->
+                .switchMap(Function<String, ObservableSource<ListMoviesResponse>> { query ->
                     this.query = query
                     return@Function searchService.getMoviesForSearchQuery(query)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
                 })
-                .subscribe ({ listMoviesResponse: ListMoviesResponse? ->
-                    println(listMoviesResponse!!.movies)
-                    view.showAutoCompleteSuggestions(listMoviesResponse.movies)
-                }, {
-                    it.printStackTrace()
-                }))
+                .subscribe({ listMoviesResponse: ListMoviesResponse? ->
+                    if (listMoviesResponse != null && listMoviesResponse.movies.isNotEmpty()) {
+                        view.showAutoCompleteSuggestions(listMoviesResponse.movies)
+                    }
+                }, { throwable ->
+                    view.hideLoading()
+                    when (throwable) {
+                        is UnknownHostException -> view.showError(R.string.error_message_no_internet)
+                        is SocketTimeoutException -> view.showError(R.string.error_message_no_internet)
+                    }
+                })
+        )
     }
 
     override fun onViewDestroyed() {
